@@ -7,8 +7,8 @@ class Exercise {
 
   Exercise(
       {required this.name,
+      required this.weight,
       required this.sets,
       required this.reps,
-      required this.weight,
       this.isCompleted = false});
 }
