@@ -1,6 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:workout_tracker/datetime/date_time.dart';
-
 import '../models/exercise.dart';
 import '../models/workout.dart';
 
@@ -87,6 +86,12 @@ class HiveDatabase {
       }
     }
     return false;
+  }
+
+  // return completion status of a given date                     // check again if found error
+  int getCompletionStatus(String todayDate) {
+    int completionStatus = _myBox.get("COMPLETION_STATUS_$todayDate");
+    return completionStatus;
   }
 }
 

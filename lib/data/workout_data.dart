@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:workout_tracker/data/hive_database.dart';
 import '../models/exercise.dart';
 import '../models/workout.dart';
 
 class WorkoutData extends ChangeNotifier {
+  final db = HiveDatabase();
   /*
   Workout data structure
 
@@ -58,6 +60,16 @@ class WorkoutData extends ChangeNotifier {
     notifyListeners();
   }
 
+  // if there are workouts already in db, then get the workout list
+  void initializeWorkoutList() {
+    if (db.previousDataExists()) {
+      workoutList = db.readFromDatabase();
+      // otherwise use default list
+    } else {
+      db.saveToDatabase(workoutList);
+    }
+  }
+
 //get length of workout list
   int getWorkoutListLength(String workoutName) {
     Workout relevantWorkout = getRelevantWorkout(workoutName);
@@ -80,6 +92,8 @@ class WorkoutData extends ChangeNotifier {
     workoutList.add(Workout(name: name, exercises: []));
 
     notifyListeners();
+    //save to database
+    db.saveToDatabase(workoutList);
   }
 
   //delete a workout
@@ -87,6 +101,8 @@ class WorkoutData extends ChangeNotifier {
     workoutList.removeWhere((workout) => workout.name == name);
 
     notifyListeners();
+    //save to database
+    db.saveToDatabase(workoutList);
   }
 
 // add an exercise to a workout

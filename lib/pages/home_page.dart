@@ -11,6 +11,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<WorkoutData>(context, listen: false).initializeWorkoutList();
+  }
+
   //text controller
   final newWorkoutNameController = TextEditingController();
 
@@ -26,14 +32,20 @@ class _HomePageState extends State<HomePage> {
                 actions: [
                   //save
                   MaterialButton(
+                    color: Colors.green,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
                     onPressed: save,
-                    child: const Text('save'),
+                    child: const Text('Save'),
                   ),
 
                   //cancel
                   MaterialButton(
+                    color: Colors.red,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
                     onPressed: cancel,
-                    child: const Text('cancel'),
+                    child: const Text('Cancel'),
                   )
                 ]));
   }
