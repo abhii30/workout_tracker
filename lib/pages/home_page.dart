@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_tracker/components/heat_map.dart';
 import 'package:workout_tracker/pages/workout_page.dart';
 import '../data/workout_data.dart';
 
@@ -87,51 +88,64 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Consumer<WorkoutData>(
       builder: (content, value, child) => Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text('Workout Tracker'),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => createNewWorkout(),
-          child: const Icon(Icons.add),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8),
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 8.0,
-            ),
-            itemCount: value.getWorkoutList().length,
-            itemBuilder: (context, index) => Card(
-              child: Stack(
-                children: [
-                  InkWell(
-                    onTap: () =>
-                        goToWorkoutPage(value.getWorkoutList()[index].name),
-                    child: Center(
-                      child: Text(value.getWorkoutList()[index].name),
-                    ),
-                  ),
-                  Positioned(
-                    top: -10,
-                    right: -10,
-                    child: IconButton(
-                      icon: Icon(Icons.remove_circle_outline),
-                      iconSize: 20,
-                      color: Colors.red,
-                      onPressed: () {
-                        value.removeWorkout(value.getWorkoutList()[index].name);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          backgroundColor: Colors.grey[200],
+          appBar: AppBar(
+            centerTitle: true,
+            title: const Text('Workout Tracker'),
           ),
-        ),
-      ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => createNewWorkout(),
+            child: const Icon(Icons.add),
+          ),
+          body: ListView(
+            children: [
+              //Heat Map
+              MyHeatMap(
+                  datasets: value.heatGapDataSet,
+                  startDateddmmyyyy: value.getStartDate()),
+
+              //Workout List
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 8.0,
+                    mainAxisSpacing: 8.0,
+                  ),
+                  itemCount: value.getWorkoutList().length,
+                  itemBuilder: (context, index) => Card(
+                    child: Stack(
+                      children: [
+                        InkWell(
+                          onTap: () => goToWorkoutPage(
+                              value.getWorkoutList()[index].name),
+                          child: Center(
+                            child: Text(value.getWorkoutList()[index].name),
+                          ),
+                        ),
+                        Positioned(
+                          top: -10,
+                          right: -10,
+                          child: IconButton(
+                            icon: Icon(Icons.remove_circle_outline),
+                            iconSize: 20,
+                            color: Colors.red,
+                            onPressed: () {
+                              value.removeWorkout(
+                                  value.getWorkoutList()[index].name);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )),
     );
   }
 }
