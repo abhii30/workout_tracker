@@ -60,7 +60,7 @@ class WorkoutData extends ChangeNotifier {
 
     notifyListeners();
     // load heat map
-    loadHeatMap();
+    // loadHeatMap();
   }
 
   // if there are workouts already in db, then get the workout list
@@ -73,7 +73,7 @@ class WorkoutData extends ChangeNotifier {
     }
 
     //load heat map
-    loadHeatMap();
+    // loadHeatMap();
   }
 
 //get length of workout list

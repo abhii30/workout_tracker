@@ -100,9 +100,9 @@ class _HomePageState extends State<HomePage> {
           body: ListView(
             children: [
               //Heat Map
-              MyHeatMap(
-                  datasets: value.heatGapDataSet,
-                  startDateddmmyyyy: value.getStartDate()),
+              // MyHeatMap(
+              //     datasets: value.heatGapDataSet,
+              //     startDateddmmyyyy: value.getStartDate()),
 
               //Workout List
               Padding(
